@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    <nav> 
+        <a href="/"><img src="images/logo.png" alt="Ask AI"></a>
+        <a href="#ask-ai">Ask AI</a>
+        <a href="#">Help</a>
+        <a href="#">Docs</a>
+    </nav>
+
+    <!-- If there is an output from the server, display the output in a div -->
+    <% if (locals.output) { %>
+        <div class="output">
+            <span><svg xmlns="http://www.w3.org/2000/svg" height="20" fill="currentColor" class="bi bi-chat-left-dots"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                    <path
+                        d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                </svg></span> <%- output %>
+        </div>
+        
+        <!-- scroll to top button with DISPLAY: RELATIVE to div above -->
+        <button onclick="scrollToTop()" id="scroll">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5"/>
+            </svg>
+        </button>
+
+    <!-- Display error message if error is recieved instead -->
+    <% } else if (locals.error){ %>
+        <div class="output error" style="align-items: center;">
+            <em><img src="../images/bug.svg" alt="bug"> <%= locals.error %></em>
+        </div>
+    <% } %>
+
+    <!-- User Input box -->
+    <div id="ask-ai" class="heading">
+        <h1>Ask AI Anything</h1>
+        <form action="/submit" method="post">
+            <input name="prompt" placeholder="Write your prompt" autofocus type="text">
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <!-- If there is no output from the server, add margin to the user input box -->
+    <% if (!locals.output) { %>
+        <script>
+            document.getElementById("ask-ai").style.marginTop = "120px";
+        </script>
+    <% } %>
+    
+    <!-- Smooth scroll to top function -->
+    <script>
+        function scrollToTop() {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+    </script>
+
+</body>
+</html>
